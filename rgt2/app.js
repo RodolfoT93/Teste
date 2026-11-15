@@ -263,7 +263,16 @@ $('#printBtn').onclick=()=>{
  if(msg&&!confirm(msg+'\nImprimir mesmo assim?'))return;
  const b=build(),pa=$('#printArea');pa.innerHTML=b.html;pa.style.display='block';
  pa.querySelectorAll('.page').forEach(fit);pa.style.display='';
- pushHist();setTimeout(()=>window.print(),60);
+ pushHist();
+ const st=$('#status'),btn=$('#printBtn'),html=pa.innerHTML;
+ const w=window.open('','_blank');
+ btn.disabled=true;st.className='status';st.textContent='Gerando PDF A4…';
+ api('pdf',{method:'POST',body:{html}}).then(r=>{
+  if(w)w.location.href=r.url;else location.href=r.url;
+  st.innerHTML='PDF A4 gerado. Se não abriu, <a href="'+r.url+'" target="_blank" rel="noopener">toque aqui</a>. No PDF, use Compartilhar/Imprimir (escala 100%).';
+ }).catch(()=>{
+  if(w)w.close();st.textContent='Não foi possível gerar o PDF no servidor; abrindo a impressão do navegador.';st.className='status warn';setTimeout(()=>window.print(),60);
+ }).finally(()=>{btn.disabled=false});
 };
 $('#clearBtn').onclick=()=>{
  ['patient','peso','anos','meses','alergias','rxFree','exams','examObs','certText','certCid','certDias'].forEach(id=>$('#'+id).value='');$('#date').value=today();$('#certModelo').value='';rows=[];drawRows();render();

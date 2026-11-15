@@ -64,12 +64,12 @@ textarea{resize:vertical;min-height:80px}
 .overflow{outline:1.2mm solid rgba(180,35,24,.65);outline-offset:-1.2mm}
 #printArea{display:none}#measure{position:fixed;left:-10000px;top:0;visibility:hidden;pointer-events:none}
 @media(max-width:1050px){.app{grid-template-columns:1fr}.panel{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line)}.preview-wrap{padding:12px}}
-@media(max-width:760px){.grid2,.rx-grid{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.page{zoom:.62}.preview-pages{gap:8px}}
+@media(max-width:760px){.grid2,.rx-grid{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.preview-pages .page{zoom:.62}.preview-pages{gap:8px}}
 @media print{
 @page{size:A4 portrait;margin:0}
 html,body{background:#fff;width:210mm;margin:0!important;padding:0!important}
 .app,#measure{display:none!important}#printArea{display:block!important}
-#printArea .page{margin:0!important;box-shadow:none!important;width:210mm!important;height:297mm!important;break-after:page;page-break-after:always}
+#printArea .page{zoom:1!important;margin:0!important;box-shadow:none!important;width:210mm!important;height:297mm!important;break-after:page;page-break-after:always}
 #printArea .page:last-child{break-after:auto;page-break-after:auto}
 .overflow{outline:none!important}}
 </style></head><body><div class="app">
