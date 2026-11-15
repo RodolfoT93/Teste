@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prescrição RGT — Dr. Rodolfo Galvão Turini</title><link rel="icon" href="/img/logo.jpg"><style>:root{--navy:#082b49;--navy-2:#0c3b61;--gold:#b48a3b;--bg:#eef2f6;--line:#d6dde5;--text:#17212b;--muted:#66717d;--danger:#9b2c2c;--ok:#176b43;--warn:#8a5a00}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea,select{font:inherit}
+.app{min-height:100vh;display:grid;grid-template-columns:minmax(380px,500px) 1fr}
+.panel{background:#fff;border-right:1px solid var(--line);padding:18px 20px;overflow:auto;height:100vh;position:sticky;top:0}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:2px solid var(--gold)}
+.brand img{width:46px;height:46px;border-radius:11px;object-fit:cover}.brand h1{font-size:17px;margin:0;color:var(--navy)}.brand small{color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 14px}
+.tab{border:1px solid var(--line);background:#f8fafc;padding:9px 6px;border-radius:9px;cursor:pointer;font-weight:700;color:#344252;font-size:13px}
+.tab.active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:inset 0 -3px 0 var(--gold)}
+.group{margin:0 0 12px}label{display:block;font-size:12px;font-weight:700;color:#344252;margin:0 0 5px}
+input,textarea,select{width:100%;border:1px solid #c9d3dd;border-radius:9px;padding:9px 10px;background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--navy-2);box-shadow:0 0 0 3px #0c3b6122}
+textarea{resize:vertical;min-height:80px}
+.grid2{display:grid;grid-template-columns:1fr 140px;gap:10px}.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1.4fr;gap:8px}
+.hint{font-size:11px;color:var(--muted);line-height:1.4;margin-top:4px}
+.seg{display:flex;gap:6px;margin-bottom:10px}.seg button{flex:1;border:1px solid var(--line);background:#f8fafc;border-radius:8px;padding:7px;cursor:pointer;font-weight:700;font-size:12px;color:#344252}.seg button.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.search{position:relative}.results{position:absolute;z-index:20;left:0;right:0;top:100%;background:#fff;border:1px solid #b9c5d1;border-radius:9px;max-height:300px;overflow:auto;box-shadow:0 10px 24px #0003;display:none}
+.results.show{display:block}.results div{padding:8px 10px;border-bottom:1px solid #eef1f4;cursor:pointer;font-size:13px;display:flex;gap:6px;align-items:center}
+.results div:hover,.results div.sel{background:#eaf1f8}.results small{margin-left:auto;color:var(--muted);font-size:10px;white-space:nowrap}
+.tag{font-size:10px;font-weight:700;border-radius:5px;padding:1px 5px;background:#e8eef4;color:var(--navy)}.tag.p{background:#fdf3dc;color:#7a5a12}
+.rx-list{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.rx-editor{border:1px solid var(--line);border-radius:11px;padding:9px;background:#fbfcfd}
+.rx-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:6px}.rx-top strong{font-size:12px;color:var(--navy)}
+.rx-grid{display:grid;grid-template-columns:1fr 110px;gap:7px}
+.rx-editor textarea{min-height:58px;margin-top:7px}.rx-editor select{margin-top:7px;font-size:12px}
+.rx-editor textarea.calc-erro{border-color:#c0392b;background:#fff3f1}.rx-editor textarea.calc-capped{border-color:var(--warn);background:#fffaf0}
+.icon-btn{border:0;background:transparent;color:var(--danger);cursor:pointer;font-size:12px;font-weight:700}
+.alert{margin:0 0 10px;padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.4;background:#fff7e6;color:#6b4a00;border:1px solid #f0d9a0;white-space:pre-line}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.btn{border:0;border-radius:10px;padding:11px 12px;font-weight:700;cursor:pointer}.btn.primary{background:var(--navy);color:#fff;box-shadow:inset 0 -3px 0 var(--gold)}
+.btn.secondary{background:#edf2f7;color:#263748;border:1px solid #d5dee7}.btn.small{padding:7px 10px;font-size:12px}
+.status{margin-top:10px;font-size:11px;line-height:1.45;color:var(--muted);padding:8px 10px;border-radius:8px;background:#f7f9fb}.status.warn{color:#6b4a00;background:#fff7e6}
+.hist{display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto}.hist div{border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:12px;cursor:pointer;background:#fbfcfd}.hist div:hover{background:#eaf1f8}
+.preview-wrap{padding:22px;overflow:auto;min-width:0}.preview-toolbar{max-width:900px;margin:0 auto 12px;display:flex;justify-content:space-between;color:#52606d;font-size:12px}
+.preview-pages{display:flex;flex-direction:column;gap:18px;align-items:center}
+.page{position:relative;width:210mm;height:297mm;background:#fff;overflow:hidden;box-shadow:0 6px 24px #17212b22;page-break-after:always;flex:0 0 auto}
+.page:last-child{page-break-after:auto}.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none;user-select:none}
+.overlay{position:absolute;z-index:2;color:#111;display:flex;flex-direction:column;overflow:hidden}
+.simple-area{top:62mm;left:15mm;width:180mm;height:164mm}.control-area{top:69mm;left:15mm;width:180mm;height:139mm}
+.doc-title{text-align:center;font-size:13pt;font-weight:700;line-height:1.2;margin:0 0 4.5mm;color:#0a2945;flex:0 0 auto}
+.patient{font-size:10.7pt;font-weight:700;text-transform:uppercase;line-height:1.22;word-break:break-word;flex:0 0 auto}
+.divider{height:.35mm;background:#27333d;margin:2.6mm 0 4.2mm;flex:0 0 auto}
+.body{font-size:10.7pt;line-height:1.32;word-break:break-word;overflow:hidden;flex:1 1 auto;min-height:0;padding-right:.5mm}
+.rx-item{margin:0 0 5.2mm;break-inside:avoid}.rx-line{font-size:11.1pt;line-height:1.24}.rx-number{display:inline-block;min-width:5.8mm}
+.rx-sig{margin:1.1mm 0 0 6.5mm;font-size:10.5pt;line-height:1.28;white-space:pre-wrap}
+.free-line{white-space:pre-wrap;min-height:1.3em}
+.date{font-size:9.2pt;line-height:1.2;margin-top:3mm;flex:0 0 auto}.exam-item{margin-bottom:2mm}.exam-obs{margin-top:6mm;white-space:pre-wrap}
+.cert-text{white-space:pre-wrap;text-align:justify}.cid{margin-top:6mm;font-weight:700;flex:0 0 auto}
+.overflow{outline:1.2mm solid rgba(180,35,24,.65);outline-offset:-1.2mm}
+#printArea{display:none}#measure{position:fixed;left:-10000px;top:0;visibility:hidden;pointer-events:none}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.panel{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line)}.preview-wrap{padding:12px}}
+@media(max-width:760px){.grid2,.rx-grid{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.page{zoom:.62}.preview-pages{gap:8px}}
+@media print{
+@page{size:A4 portrait;margin:0}
+html,body{background:#fff;width:210mm;margin:0!important;padding:0!important}
+.app,#measure{display:none!important}#printArea{display:block!important}
+#printArea .page{margin:0!important;box-shadow:none!important;width:210mm!important;height:297mm!important;break-after:page;page-break-after:always}
+#printArea .page:last-child{break-after:auto;page-break-after:auto}
+.overflow{outline:none!important}}
+</style></head><body><div class="app">
+<aside class="panel">
+ <div class="brand"><img src="/img/logo.jpg" alt="RGT"><div><h1>Prescrição RGT</h1><small>Receitas, exames e atestados · A4 retrato</small></div></div>
+ <div class="tabs">
+  <button class="tab active" data-type="simple" type="button">Receita</button>
+  <button class="tab" data-type="control" type="button">Controle especial</button>
+  <button class="tab" data-type="exams" type="button">Exames</button>
+  <button class="tab" data-type="certificate" type="button">Atestado</button>
+  <button class="tab" data-type="models" type="button">Modelos</button>
+  <button class="tab" data-type="history" type="button">Histórico</button>
+  <button class="tab" data-type="base" type="button">Base</button>
+ </div>
+ <div id="common">
+  <div class="grid2"><div class="group"><label for="patient">Paciente</label><input id="patient" autocomplete="off" placeholder="Nome completo"></div>
+  <div class="group"><label for="date">Data</label><input id="date" type="date"></div></div>
+  <div class="grid4">
+   <div class="group"><label for="peso">Peso (kg)</label><input id="peso" inputmode="decimal" placeholder="kg"></div>
+   <div class="group"><label for="anos">Idade (anos)</label><input id="anos" inputmode="numeric"></div>
+   <div class="group"><label for="meses">Meses</label><input id="meses" inputmode="numeric"></div>
+   <div class="group"><label for="alergias">Alergias</label><input id="alergias" placeholder="ex.: penicilina"></div>
+  </div>
+  <div class="alert" id="alertBox" hidden></div>
+ </div>
+ <section id="rxForm">
+  <div class="seg"><button type="button" id="modeItems" class="on">Itens</button><button type="button" id="modeFree">Texto livre</button></div>
+  <div id="rxItensWrap">
+   <div class="group search"><label for="medBusca">Buscar medicamento (ISLS ambulatorial + base do Dr. Fábio)</label><input id="medBusca" autocomplete="off" placeholder="Nome comercial, genérico ou apresentação"><div class="results" id="medRes"></div></div>
+   <div class="rx-list" id="rxList"></div>
+   <button class="btn secondary small" id="addBlank" type="button" style="margin-top:9px">+ Item manual</button>
+  </div>
+  <div id="rxFreeWrap" hidden><div class="group"><label for="rxFree">Texto da receita</label><textarea id="rxFree" rows="14"></textarea></div></div>
+ </section>
+ <section id="exForm" hidden>
+  <div class="group search"><label for="exBusca">Buscar exame (base ISLS 2 + Dr. Fábio + TUSS)</label><input id="exBusca" autocomplete="off" placeholder="Digite parte do nome"><div class="results" id="exRes"></div></div>
+  <div class="group"><label for="exams">Exames solicitados (um por linha)</label><textarea id="exams" rows="10"></textarea></div>
+  <div class="group"><label for="examObs">Indicação clínica / observações</label><textarea id="examObs" rows="3"></textarea></div>
+ </section>
+ <section id="certForm" hidden>
+  <div class="grid2"><div class="group"><label for="certModelo">Modelo</label><select id="certModelo"><option value="">— texto livre —</option><option value="afastamento">Afastamento</option><option value="comparecimento">Comparecimento</option><option value="acompanhante">Acompanhante</option><option value="aptidao">Aptidão</option></select></div>
+  <div class="group"><label for="certDias">Dias</label><input id="certDias" inputmode="numeric"></div></div>
+  <div class="group"><label for="certText">Texto do atestado</label><textarea id="certText" rows="10"></textarea></div>
+  <div class="group"><label for="certCid">CID</label><input id="certCid" placeholder="Ex.: J03.9"></div>
+ </section>
+ <section id="modelsForm" hidden>
+  <div class="group"><label for="modelNome">Salvar receita atual como modelo</label><input id="modelNome" placeholder="Nome do modelo"></div>
+  <button class="btn secondary small" id="saveModel" type="button">Salvar modelo</button>
+  <div class="group" style="margin-top:14px"><label>Modelos salvos</label><div class="hist" id="modelList"></div></div>
+ </section>
+ <section id="baseForm" hidden>
+  <div class="group"><label>Novo medicamento (adulto)</label><input id="bmNome" placeholder="Nome / apresentação"><input id="bmGen" placeholder="Genérico" style="margin-top:6px"><input id="bmQt" placeholder="Quantidade" style="margin-top:6px"><textarea id="bmPos" rows="3" placeholder="Posologia" style="margin-top:6px"></textarea><button class="btn secondary small" id="addMed" type="button" style="margin-top:6px">Adicionar à base</button></div>
+  <div class="group"><label>Novo exame</label><input id="bxNome" placeholder="Nome do exame"><button class="btn secondary small" id="addExam" type="button" style="margin-top:6px">Adicionar à base</button></div>
+  <div class="group"><label>Itens próprios (sincronizados em todos os dispositivos)</label><div class="hist" id="baseList"></div></div>
+ </section>
+ <section id="histForm" hidden><div class="group"><label>Últimos documentos impressos</label><div class="hist" id="histList"></div></div></section>
+ <div class="actions" id="mainActions"><button class="btn primary" id="printBtn" type="button">Imprimir</button><button class="btn secondary" id="clearBtn" type="button">Limpar</button></div>
+ <div class="status" id="status"></div><div class="hint" id="catInfo"></div>
+</aside>
+<main class="preview-wrap"><div class="preview-toolbar"><span>Pré-visualização</span><span id="pgInfo">A4 retrato · 210 × 297 mm</span></div><div class="preview-pages" id="preview"></div></main>
+</div>
+<div id="printArea"></div><div id="measure"></div>
+<script src="/__hatchable/events.js"></script><script>const BG={simple:"/img/simple.jpg",control1:"/img/control1.jpg",control2:"/img/control2.jpg"};</script><script src="/app.js"></script></body></html>
