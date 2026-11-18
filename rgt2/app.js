@@ -5,7 +5,7 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const nz=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let MEDS=[],EXN=[];const MBYID={};
-const api=async(u,o)=>{const r=await fetch('/api/'+u,o&&{method:o.method,headers:{'Content-Type':'application/json'},body:JSON.stringify(o.body)});if(!r.ok)throw new Error(u+' '+r.status);return r.json()};
+const api=async(u,o)=>{const h={'x-rgt-key':localStorage.getItem('rgt_key')||''};if(o&&o.body!==undefined)h['Content-Type']='application/json';const r=await fetch('/api/'+u,o?{method:o.method||'GET',headers:h,body:o.body!==undefined?JSON.stringify(o.body):undefined}:{headers:h});if(r.status===401){localStorage.removeItem('rgt_key');location.reload();throw new Error('401')}if(!r.ok)throw new Error(u+' '+r.status);return r.json()};
 let catTmr=null;
 async function loadCatalog(){
  try{const d=await api('catalog');MEDS=d.meds;MEDS.forEach(m=>{m._n=nz(m.n+' '+m.g+' '+m.b);MBYID[m.i]=m});EXN=d.exams.map(e=>({e,n:nz(e)}));
